@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Choose Your Adventure 💖</title>
+  <style>
+    body { 
+      font-family: 'Comic Sans MS', cursive, sans-serif; 
+      text-align: center; 
+      padding: 50px; 
+      background: linear-gradient(135deg, #ffe6f2, #e6f7ff);
+      color: #444;
+      overflow: hidden;
+    }
+    h1 { color: #ff80b3; }
+    .choice, .replay { 
+      margin: 10px; padding: 15px 25px; 
+      border: none; 
+      background: #ffd6e7; 
+      color: #444; 
+      font-size: 18px; 
+      border-radius: 20px; 
+      cursor: pointer; 
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    .choice:hover, .replay:hover { background: #ffb3d9; transform: scale(1.05); }
+    #story { font-size: 20px; margin-bottom: 20px; }
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      animation: float 4s linear forwards;
+    }
+    @keyframes float {
+      from { transform: translateY(0) scale(1); opacity: 1; }
+      to { transform: translateY(-500px) scale(1.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Choose Your Adventure 💕</h1>
+  <p id="story">You find yourself on a magical date… what do you want to eat?</p>
+  <div id="choices"></div>
+
+  <script>
+    const storyText = [
+      "You find yourself on a magical date… what do you want to eat?",
+      "Yum! After eating, where do you want to go?",
+      "A perfect choice! One last question..."
+    ];
+
+    const options = [
+      ["🍕 Pizza", "🌮 Tacos"],
+      ["🎬 Movie", "🌙 Stargazing"],
+      ["💖 Say yes", "💖 Also say yes"]
+    ];
+
+    const endings = [
+      "Will you be my boyfriend? 💍💕"
+    ];
+
+    let step = 0;
+    const story = document.getElementById("story");
+    const choicesDiv = document.getElementById("choices");
+
+    function showChoices() {
+      choicesDiv.innerHTML = "";
+      options[step].forEach(choice => {
+        const btn = document.createElement("button");
+        btn.className = "choice";
+        btn.textContent = choice;
+        btn.onclick = nextStep;
+        choicesDiv.appendChild(btn);
+      });
+    }
+
+    function nextStep() {
+      step++;
+      if (step < storyText.length) {
+        story.textContent = storyText[step];
+        showChoices();
+      } else {
+        story.textContent = endings[0];
+        choicesDiv.innerHTML = "";
+        replayButton();
+        launchHearts();
+      }
+    }
+
+    function replayButton() {
+      const btn = document.createElement("button");
+      btn.className = "replay";
+      btn.textContent = "🔄 Play Again";
+      btn.onclick = () => location.reload();
+      choicesDiv.appendChild(btn);
+    }
+
+    function launchHearts() {
+      for (let i = 0; i < 30; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.textContent = "💖";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.top = window.innerHeight + "px";
+        heart.style.fontSize = (20 + Math.random() * 20) + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+      }
+    }
+
+    showChoices();
+  </script>
+</body>
+</html>
+
